@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
-
 LANGUAGES = [
     {"name": "Javascript"},
     {"name": "Python"},
@@ -10,10 +9,10 @@ LANGUAGES = [
 ]
 
 
-@app.route("/lang", methods=["POST"])
-def create_language():
-    language = {"name": request.json["name"]}
-    LANGUAGES.append(language)
+@app.route("/lang/<string:name>", methods=["PUT"])
+def update_language(name):
+    language = [lang for lang in LANGUAGES if lang["name"] == name][0]
+    language["name"] = request.json["name"]
 
     return jsonify({"languages": LANGUAGES})
 
